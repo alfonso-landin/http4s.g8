@@ -8,7 +8,14 @@ ThisBuild / githubWorkflowBuild := Seq(
     name = Some("Test generated template")
   )
 )
-ThisBuild / githubWorkflowJavaVersions := Seq("adopt@1.8", "adopt@1.11", "adopt@1.15")
+
+val PrimaryOS = "ubuntu-latest"
+val MacOS = "macos-latest"
+ThisBuild / githubWorkflowOSes := Seq(PrimaryOS, MacOS)
+ThisBuild / githubWorkflowJavaVersions := Seq(
+  JavaSpec.temurin("11"),
+  JavaSpec.temurin("17"),
+)
 ThisBuild / githubWorkflowPublishTargetBranches := Seq.empty
 
 lazy val root = project.in(file("."))

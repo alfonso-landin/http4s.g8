@@ -1,7 +1,7 @@
 package $package$
 
 import cats.effect.Sync
-import cats.implicits._
+import cats.implicits.*
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 

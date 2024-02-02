@@ -1,10 +1,10 @@
 package $package$
 
 import cats.Applicative
-import cats.implicits._
+import cats.implicits.*
 import io.circe.{Encoder, Json}
 import org.http4s.EntityEncoder
-import org.http4s.circe._
+import org.http4s.circe.*
 
 trait HelloWorld[F[_]]:
   def hello(n: HelloWorld.Name): F[HelloWorld.Greeting]
@@ -24,7 +24,7 @@ object HelloWorld:
       )
 
     given [F[_]]: EntityEncoder[F, Greeting] =
-      jsonEncoderOf[F, Greeting]
+      jsonEncoderOf[Greeting]
 
   def impl[F[_]: Applicative]: HelloWorld[F] = new HelloWorld[F]:
     def hello(n: HelloWorld.Name): F[HelloWorld.Greeting] =
