@@ -17,6 +17,12 @@ lazy val root = (project in file("."))
       "org.scalameta"   %% "munit"               % MunitVersion           % Test,
       "org.typelevel"   %% "munit-cats-effect-3" % MunitCatsEffectVersion % Test,
       "ch.qos.logback"  %  "logback-classic"     % LogbackVersion,
+      $if(graal_native_image.truthy)$
+      "org.scalameta"   %  "svm-subs"            % "101.0.0"
+      $endif$
     ),
-    testFrameworks += new TestFramework("munit.Framework")
+    assembly / assemblyMergeStrategy := {
+      case "module-info.class" => MergeStrategy.discard
+      case x => (assembly / assemblyMergeStrategy).value.apply(x)
+    }
   )

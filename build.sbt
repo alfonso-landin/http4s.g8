@@ -3,9 +3,16 @@
 // See http://www.foundweekends.org/giter8/testing.html#Using+the+Giter8Plugin for more details.
 
 ThisBuild / githubWorkflowBuild := Seq(
-  WorkflowStep.Sbt(
-    List("g8Test"),
-    name = Some("Test generated template")
+  WorkflowStep.Sbt(List("g8Test"), name = Some("Test generated template")),
+  WorkflowStep.Run(
+    List(
+      "cd target/sbt-test/http4s-g8/scripted",
+      "sbt assembly",
+      "gu install native-image",
+      "cat native-image-readme.md | grep 'native-image  -H*' | sh"
+    ),
+    cond = Some("startsWith(matrix.java, 'graalvm')"),
+    name = Some("Build native assembly")
   )
 )
 
@@ -15,6 +22,7 @@ ThisBuild / githubWorkflowOSes := Seq(PrimaryOS, MacOS)
 ThisBuild / githubWorkflowJavaVersions := Seq(
   JavaSpec.temurin("11"),
   JavaSpec.temurin("17"),
+  JavaSpec.graalvm("17")
 )
 ThisBuild / githubWorkflowPublishTargetBranches := Seq.empty
 
